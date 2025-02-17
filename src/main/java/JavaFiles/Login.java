@@ -3,10 +3,7 @@ package JavaFiles;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
@@ -24,22 +21,13 @@ public class Login extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private static final String DB_URL = "jdbc:mariadb://localhost:3306/disaster1";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "";
-
     private static final Logger LOGGER = Logger.getLogger(Login.class.getName());
-
-    // Establish database connection
-    private Connection getConnection() throws Exception {
-        Class.forName("org.mariadb.jdbc.Driver");
-        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("log_username");
         String password = request.getParameter("log_password");
+        String rememberMe = request.getParameter("remember_me");
 
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             request.setAttribute("message", "Username and password are required.");
@@ -47,23 +35,28 @@ public class Login extends HttpServlet {
             return;
         }
 
-        try (Connection con = getConnection()) {
+        try (Connection con = getConnection.connect()) { // Ensure this method exists
             LOGGER.info("Database connection successful.");
 
             if (authenticateUser(con, username, password)) {
-                verifyUser(con, username);
-
                 HttpSession session = request.getSession();
-               // session.setAttribute("loggedInUser", username);
-                // Save the appropriate username (either user or representative) in the session
+
+                // Store the correct session attribute based on user type
                 if (isUserInTable(con, username)) {
-                    session.setAttribute("loggedInUser", username);  // For user
+                    session.setAttribute("loggedInUser", username);
                 } else if (isRepresentativeInTable(con, username)) {
-                    session.setAttribute("loggedInRepresentative", username);  // For representative
+                    session.setAttribute("loggedInRepresentative", username);
                 }
-// Debugging: Log the session attribute to check if it's saved correctly
+
+                // Handle "Remember Me" functionality
+                Cookie userCookie = new Cookie("username", "on".equals(rememberMe) ? username : "");
+                userCookie.setMaxAge("on".equals(rememberMe) ? 7 * 24 * 60 * 60 : 0);
+                response.addCookie(userCookie);
+
+                // Debugging logs
                 LOGGER.info("Session loggedInRepresentative: " + session.getAttribute("loggedInRepresentative"));
                 LOGGER.info("Session loggedInUser: " + session.getAttribute("loggedInUser"));
+
                 String redirectURL = (String) session.getAttribute("redirectURL");
                 response.sendRedirect(redirectURL != null ? redirectURL : "Home.jsp");
             } else {
@@ -76,82 +69,51 @@ public class Login extends HttpServlet {
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         }
     }
-    // Helper method to check if the username exists in the 'user' table
+
     private boolean isUserInTable(Connection con, String username) throws Exception {
-        String userQuery = "SELECT Username FROM user WHERE Username = ?";
-        try (PreparedStatement ps = con.prepareStatement(userQuery)) {
+        String query = "SELECT Username FROM user WHERE Username = ?";
+        try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, username);
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
             }
         }
     }
-    // Helper method to check if the username exists in the 'representative' table
+
     private boolean isRepresentativeInTable(Connection con, String username) throws Exception {
-        String repQuery = "SELECT Representativename FROM representative WHERE Representativename = ?";
-        try (PreparedStatement ps = con.prepareStatement(repQuery)) {
+        String query = "SELECT Representativename FROM representative WHERE Representativename = ?";
+        try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, username);
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
             }
         }
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.sendRedirect("Login.jsp");
     }
 
     private boolean authenticateUser(Connection con, String username, String password) throws Exception {
-        // Check in 'user' table first
-        String userQuery = "SELECT Username, Password FROM user WHERE Username = ?";
-        try (PreparedStatement ps = con.prepareStatement(userQuery)) {
+        String query = "SELECT Password FROM user WHERE Username = ? UNION SELECT Password FROM representative WHERE Representativename = ?";
+        try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, username);
+            ps.setString(2, username);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    String dbUsername = rs.getString("Username");
-                    String dbPassword = rs.getString("Password");
-
-                    LOGGER.info("Checking 'user' table for username: " + username);
-
-                    if (BCrypt.checkpw(password, dbPassword)) {
-                        LOGGER.info("Password match successful for user: " + username);
-                        return true;
-                    } else {
-                        LOGGER.warning("Password mismatch for user: " + username);
-                        return false;
-                    }
+                    return BCrypt.checkpw(password, rs.getString("Password"));
                 }
             }
         }
-
-        // Check in 'representative' table if not found in 'user'
-        String repQuery = "SELECT Representativename,Password FROM representative WHERE Representativename = ?";
-        try (PreparedStatement ps = con.prepareStatement(repQuery)) {
-            ps.setString(1, username);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    String dbRepName = rs.getString("Representativename");
-                    String dbPassword = rs.getString("Password");
-
-                    LOGGER.info("Checking 'representative' table for Representativename: " + username);
-
-                    if (BCrypt.checkpw(password, dbPassword)) {
-                        LOGGER.info("Password match successful for representative: " + username);
-                        return true;
-                    } else {
-                        LOGGER.warning("Password mismatch for representative: " + username);
-                        return false;
-                    }
-                }
-            }
-        }
-
-        LOGGER.warning("User not found in either 'user' or 'representative' table: " + username);
+        LOGGER.warning("User not found: " + username);
         return false;
     }
+}
 
-
-
+//commented verify out since we dont do verify anymore - a chaw lay
+    //for context, any user with over 20 contri_count is considered verified
+/*
     private void verifyUser(Connection con, String username) throws Exception {
         String checkVerifiedQuery = "SELECT Username FROM verified WHERE Username = ?";
         try (PreparedStatement ps = con.prepareStatement(checkVerifiedQuery)) {
@@ -177,8 +139,8 @@ public class Login extends HttpServlet {
             LOGGER.info("User not eligible for verification: " + username);
         }
     }
-//make it as comment because it is using the table that doesnt exist but might need for smth-TTW
-   private int calculateContributionCount(Connection con, String username) throws Exception {
+    //make it as comment because it is using the table that doesnt exist but might need for smth-TTW
+    private int calculateContributionCount(Connection con, String username) throws Exception {
         int count = 0;
         String locationQuery = "SELECT LocationUsername FROM " + username + "_location";
 
@@ -201,4 +163,6 @@ public class Login extends HttpServlet {
         LOGGER.info("Total contributions for " + username + ": " + count);
         return count;
     }
-}
+
+ */
+
