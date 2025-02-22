@@ -16,7 +16,7 @@
     }
     try
     {
-        con=DriverManager.getConnection("jdbc:mariadb://localhost:3306/disaster1" , "root","");
+        con=DriverManager.getConnection("jdbc:mariadb://localhost:3306/edms" , "root","");
     }
     catch(SQLException e)
     {
@@ -1616,7 +1616,7 @@
                     name="password2"
                     type="password"
                     class="input-floral w-full"
-                    placeholder="Confirm password"
+                    placeholder="To Confirm password"
                     required
                     oninput="validatePasswordMatch()"
             />
@@ -1668,7 +1668,7 @@
 
     <!-- select type -->
     <label class="label">
-        <span class="label-text">Select Type</span></label>
+        <span class="label-text">Select The Type of Shelter</span></label>
     <select
             class="select select-bordered  input-floral w-full"
             type="text"
@@ -1682,7 +1682,7 @@
 
     <!-- Budget -->
     <label class="label">
-        <span class="label-text">Funding</span>
+        <span class="label-text">Organizer Funding for shelter</span>
     </label>
     <input
             id="budgetInput"
@@ -1719,7 +1719,7 @@
 
 
     <label class="label">
-        <span class="label-text">Website URL</span>
+        <span class="label-text">Website Address of Shelter</span>
     </label>
     <input
             name="URL"
@@ -1745,7 +1745,7 @@
 
     <!-- Second Image Upload -->
     <div class="form-control">
-        <p class="text-gray-600 text-sm mb-2">(Upload certificate that you got from the volunteer group)</p>
+        <p class="text-gray-600 text-sm mb-2">(Upload certificate that you got from the government)</p>
         <input
                 class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gradient-to-r file:from-yellow-300 file:to-white hover:file:bg-gradient-to-r hover:file:from-yellow-200 hover:file:to-white mb-4"
                 type="file"
@@ -1756,7 +1756,7 @@
     <!-- shelter Image Upload -->
     <div class="form-control">
         <label for="myFile" class="label">
-            <span class="label-text text-gray-800 font-medium">Photo for shelter</span>
+            <span class="label-text text-gray-800 font-medium">Photo of shelter</span>
         </label>
         <p class="text-gray-600 text-sm mb-2">(Upload your shelter photo)</p>
         <input
@@ -1769,7 +1769,7 @@
     <!-- shelter Image2 Upload -->
     <div class="form-control">
         <label for="myFile" class="label">
-            <span class="label-text text-gray-800 font-medium">Photo for shelter</span>
+            <span class="label-text text-gray-800 font-medium">Photo of shelter</span>
         </label>
         <p class="text-gray-600 text-sm mb-2">(Upload your second shelter photo)</p>
         <input
@@ -1780,7 +1780,7 @@
                 required />
     </div>
     <label class="label">
-        <span class="label-text">Mobile No</span>
+        <span class="label-text">Mobile No of Shelter</span>
     </label>
     <input
             id="mobileInput"
@@ -1817,7 +1817,7 @@
 
     <div class="form-control">
         <label for="help-Count" class="label">
-            <span class="label-text text-gray-800 font-medium">Affectedmale</span>
+            <span class="label-text text-gray-800 font-medium">Affected Male Number</span>
         </label>
         <input
                 type="number"
@@ -1828,7 +1828,7 @@
 
     <div class="form-control">
         <label for="help-Count" class="label">
-            <span class="label-text text-gray-800 font-medium">Affectedfemale</span>
+            <span class="label-text text-gray-800 font-medium">Affected Female Number</span>
         </label>
         <input
                 type="number"
@@ -1839,7 +1839,7 @@
 
     <div class="form-control">
         <label for="help-Count" class="label">
-            <span class="label-text text-gray-800 font-medium">Affectedchildren</span>
+            <span class="label-text text-gray-800 font-medium">Affected Children Number</span>
         </label>
         <input
                 type="number"
@@ -1850,7 +1850,7 @@
 
     <div class="form-control">
         <label for="help-Count" class="label">
-            <span class="label-text text-gray-800 font-medium">Stafftotal</span>
+            <span class="label-text text-gray-800 font-medium">Total Number of Shelter Staffs</span>
         </label>
         <input
                 type="number"
@@ -1989,7 +1989,7 @@
     </div>
 
     <label class="label">
-        <span class="label-text">Capacity</span>
+        <span class="label-text">Capacity of Shelter</span>
     </label>
     <input
             id="capacityInput"
@@ -2009,9 +2009,9 @@
             type="text"
             name="Activity"
             required>
-        <option disabled selected>Select Activity</option>
+        <option disabled selected>Condition of Shelter</option>
         <option>Active</option>
-        <option>Halt</option>
+        <option>Hiatus</option>
         <option>Rest</option>
     </select>
     <span id="activityError" class="text-red-500 text-sm"></span>

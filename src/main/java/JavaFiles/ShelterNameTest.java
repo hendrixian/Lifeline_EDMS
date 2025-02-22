@@ -1,5 +1,4 @@
-import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.annotation.WebServlet;
+package JavaFiles;
 
 import java.sql.*;
 
@@ -12,15 +11,14 @@ public class ShelterNameTest {
         String username = "hello"; // Test with 'hello' as the username
 
         try {
-            // Load MySQL/MariaDB Driver
-            Class.forName("org.mariadb.jdbc.Driver");
 
             // Establish database connection
-            con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/disaster1", "root", "");
+            con = getConnection.connect();
             System.out.println("Database connection established.");
 
             // Fetch sheltername based on the hardcoded username
             String sql = "SELECT sheltername FROM representative WHERE Representativename = ?";
+            assert con != null;
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, username); // Set the username for the query
 
@@ -35,7 +33,7 @@ public class ShelterNameTest {
                 System.out.println("No shelter found for Representativename: " + username);
             }
 
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             // Handle errors
             System.out.println("Database connection error: " + e.getMessage());
             e.printStackTrace();

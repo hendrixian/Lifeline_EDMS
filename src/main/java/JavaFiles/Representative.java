@@ -33,7 +33,7 @@ public class Representative extends HttpServlet {
             // Step 1: Establish database connection
             out.println("Connecting to database...");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/disaster1", "root", "");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/edms", "root", "");
             out.println("Database connected successfully.");
 
             // Step 2: Get form parameters

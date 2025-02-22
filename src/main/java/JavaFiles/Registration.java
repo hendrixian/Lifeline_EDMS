@@ -29,7 +29,7 @@ public class Registration extends HttpServlet {
 
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/disaster1", "root", "");
+			con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/edms", "root", "");
 
 			String username = request.getParameter("Username");
 			String email = request.getParameter("Email");

@@ -34,7 +34,7 @@
 <script>
 
     //       print data
-    fetch('http://localhost:8080/edms_demo/DataServlet')
+    fetch('http://localhost:8080/EDMS_war_exploded/DataServlet')
         .then(res => res.json())
         .then(data => {
             const table = document.getElementById('data_table');
@@ -62,8 +62,8 @@
             const nameList = data[1]
             const typeList = data[2]
             const activityList = data[3]
-            const distList = data[4]
-            const upaList = data[5]
+            const divList = data[4]
+            const ctList = data[5]
             const unionList = data[6]
             const userList = data[7]
 // 		console.log(verifiedList)
@@ -108,33 +108,33 @@
 
     window.onload = function()
     {
-        const DistrictSelect = document.getElementById("DistrictSelect");
-        const UpazillaSelect = document.getElementById("UpazillaSelect");
-        const UnionSelect = document.getElementById("UnionSelect");
+        const DivisionSelect = document.getElementById("DivisionSelect");
+        const CitySelect = document.getElementById("CitySelect");
+        const TownshipSelect = document.getElementById("TownshipSelect");
         for(var x in subjectObject )
         {
-            DistrictSelect.options[DistrictSelect.options.length] = new Option(x,x);
+            DivisionSelect.options[DivisionSelect.options.length] = new Option(x,x);
         }
 
-        DistrictSelect.onchange = function()
+        DivisionSelect.onchange = function()
         {
-            UpazillaSelect.length = 1;
-            UnionSelect.length = 1;
+            CitySelect.length = 1;
+            TownshipSelect.length = 1;
 
             for(var y in subjectObject[this.value])
             {
-                UpazillaSelect.options[UpazillaSelect.options.length] = new Option(y,y);
+                CitySelect.options[CitySelect.options.length] = new Option(y,y);
             }
         }
 
-        UpazillaSelect.onchange = function()
+        CitySelect.onchange = function()
         {
-            UnionSelect.length = 1;
+            TownshipSelect.length = 1;
 
-            var z = subjectObject[DistrictSelect.value][this.value];
+            var z = subjectObject[DivisionSelect.value][this.value];
             for(var i =0;i<z.length;i++)
             {
-                UnionSelect.options[UnionSelect.options.length] = new Option(z[i],z[i]);
+                TownshipSelect.options[TownshipSelect.options.length] = new Option(z[i],z[i]);
             }
 
         }
@@ -226,20 +226,20 @@
     <div class="my-6 p-3 grid grid-cols-1 md:grid-cols-3 justify-center items-center gap-3">
         <div class="flex flex-col lg:flex-row justify-center items-center gap-2">
             <label class="Label" for="itemSelect"><span class="label-text font-bold text-orange-500">Division: </span></label>
-            <select class="w-full lg:w-auto lg:grow select select-bordered" id="DistrictSelect" name="Districtitem">
+            <select class="w-full lg:w-auto lg:grow select select-bordered" id="DivisionSelect" name="Districtitem">
                 <option value="null">None</option>
             </select>
         </div>
 
         <div class="flex flex-col lg:flex-row justify-center items-center gap-2">
             <label class="Label" for="itemSelect"><span class="label-text font-bold text-orange-500">City :</span></label>
-            <select class="w-full lg:w-auto lg:grow select select-bordered" class ="dropbox" id="UpazillaSelect" name="Upazilaitem">
+            <select class="w-full lg:w-auto lg:grow select select-bordered" class ="dropbox" id="CitySelect" name="Upazilaitem">
                 <option value="null">None</option>
             </select>
         </div>
         <div class="flex flex-col lg:flex-row justify-center items-center gap-2">
             <label class="Label" for="itemSelect"><span class="label-text font-bold text-orange-500">Township :</span></label>
-            <select class="w-full lg:w-auto lg:grow select select-bordered" id="UnionSelect" name="Unionitem">
+            <select class="w-full lg:w-auto lg:grow select select-bordered" id="TownshipSelect" name="Unionitem">
                 <option value="null">None </option>
             </select>
         </div>
@@ -255,15 +255,15 @@
 
 
 <script>
-    const distComponent = document.getElementById("DistrictSelect");
-    const upazComponent = document.getElementById("UpazillaSelect");
-    const unionComponent = document.getElementById("UnionSelect");
+    const divComponent = document.getElementById("DivisionSelect");
+    const cityComponent = document.getElementById("CitySelect");
+    let townshipComponent = document.getElementById("TownshipSelect");
 
 
     function updateTable () {
-        const district = distComponent.options[distComponent.selectedIndex].text;
-        const upazila = upazComponent.options[upazComponent.selectedIndex].text;
-        const union = unionComponent.options[unionComponent.selectedIndex].text;
+        const division = divComponent.options[divComponent.selectedIndex].text;
+        const city = cityComponent.options[cityComponent.selectedIndex].text;
+        const township = townshipComponent.options[townshipComponent.selectedIndex].text;
         const verifiedIcon = `
         			<img src="IMAGES/badge-2.png" class="max-h-[30px] max-w[30px]]" />
         		`
@@ -280,7 +280,7 @@
     		        <th class="dat4">Activity</th>
     		    </tr>`;
 
-        fetch('http://localhost:8080/edms_demo/DataServlet')
+        fetch('http://localhost:8080/EDMS_war_exploded/DataServlet')
             .then(res => res.json())
             .then(data => {
                 console.log(data)
@@ -288,15 +288,15 @@
                 const nameList = data[1]
                 const typeList = data[2]
                 const activityList = data[3]
-                const distList = data[4]
-                const upaList = data[5]
-                const unionList = data[6]
+                const divList = data[4]
+                const ctList = data[5]
+                const townshipList = data[6]
                 const userList = data[7]
                 //console.log(verifiedList)
 
-                if(union !== 'None'){
+                if(township !== 'None'){
                     for(let i=0; i<verifiedList.length; i++){
-                        if(unionList[i] === union){
+                        if(townshipList[i] === township){
                             new_table_data = new_table_data + '<tr  class="dat_tab hover:bg-slate-200" data-aos="fade-right">';
 
                             if(verifiedList[i] == null) {
@@ -324,9 +324,9 @@
                         }
                     }
                 }
-                else if(upazila !== 'None'){
+                else if(city !== 'None'){
                     for(let i=0; i<verifiedList.length; i++){
-                        if(upaList[i] === upazila){
+                        if(ctList[i] === city){
                             new_table_data = new_table_data + '<tr  class="dat_tab hover:bg-slate-200 data-aos="fade-right"">';
 
                             if(verifiedList[i] == null) {
@@ -355,9 +355,9 @@
                         }
                     }
                 }
-                else if(district !== 'None'){
+                else if(division !== 'None'){
                     for(let i=0; i<verifiedList.length; i++){
-                        if(distList[i] === district){
+                        if(divList[i] === division){
                             new_table_data = new_table_data + '<tr  class="dat_tab hover:bg-slate-200" data-aos="fade-right">';
 
                             if(verifiedList[i] == null) {
@@ -424,14 +424,14 @@
 
     }
 
-    distComponent.addEventListener('change', updateTable);
-    upazComponent.addEventListener('change', updateTable);
-    unionComponent.addEventListener('change', updateTable);
+    divComponent.addEventListener('change', updateTable);
+    cityComponent.addEventListener('change', updateTable);
+    townshipComponent.addEventListener('change', updateTable);
 </script>
 <!-- Start of reference -->
 <div class="p-6 m-6 flex flex-col justify-center items-center">
     <h5 class="text-center text-slate-400 font-semibold italic">In our ML regression analysis, we gratefully acknowledge the utilization of data from <a class="text-center text-slate-400 italic underline hover:text-black" href="http://www.ffwc.gov.bd/" target="_blank">Flood Forcasting & Warning Center</a> to enhance our model's accuracy and effectiveness.</h5>
-
+``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
 </div>
 <!-- End of reference -->
 <!-- Start of Footer -->

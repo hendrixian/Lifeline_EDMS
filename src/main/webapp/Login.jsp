@@ -25,7 +25,7 @@
 
             // Handle Representative registration
             document.getElementById("representativeBtn").addEventListener("click", function() {
-                window.location.href = "representative.jsp";
+                window.location.href = "policy.jsp";
             });
 
             // Handle User registration

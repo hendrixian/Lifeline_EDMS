@@ -28,7 +28,7 @@ public class AddPost extends HttpServlet {
 		try {
 			// Establish database connection
 			Class.forName("org.mariadb.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/disaster1", "root", "");
+			con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/edms", "root", "");
 			System.out.println("Connection established.");
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();

@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Forgot {
-    private static final String DB_URL = "jdbc:mariadb://localhost:3306/disaster1";
+    private static final String DB_URL = "jdbc:mariadb://localhost:3306/edms";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
     static final Logger LOGGER = Logger.getLogger(Forgot.class.getName());
