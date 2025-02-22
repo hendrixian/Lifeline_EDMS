@@ -1,6 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.*" %>
+<%
+    String loggedInUser = (String) session.getAttribute("loggedInUser");
+    String loggedInRepresentative = (String) session.getAttribute("loggedInRepresentative");
 
+    // Determine which username to show
+    String locationUsername = (loggedInUser != null) ? loggedInUser : loggedInRepresentative;
+
+    // Redirect if neither exists (not logged in)
+    if (locationUsername == null) {
+        response.sendRedirect("Login.jsp");
+        return;
+    }
+%>
 <%
 
     Connection con = null;
@@ -15,7 +27,7 @@
     }
     try
     {
-        con=DriverManager.getConnection("jdbc:mariadb://localhost:3306/disaster1" , "root","");
+        con=DriverManager.getConnection("jdbc:mariadb://localhost:3306/edms" , "root","");
     }
     catch(SQLException e)
     {
@@ -113,11 +125,11 @@
         .custom-select {
             appearance: none;
             background-image:
-                    url('http://localhost:8087/EDMS_war_exploded/IMAGES/kbzbank.jpg'),
-                    url('http://localhost:8087/EDMS_war_exploded/IMAGES/cbbank.jpg'),
-                    url('http://localhost:8087/EDMS_war_exploded/IMAGES/mabbank.jpg'),
-                    url('http://localhost:8087/EDMS_war_exploded/IMAGES/ayabank.jpg'),
-                    url('http://localhost:8087/EDMS_war_exploded/IMAGES/yomabank.jpg');
+                    url('http://localhost:8086/EDMS_war_exploded/IMAGES/kbz_logo.png'),
+                    url('http://localhost:8086/EDMS_war_exploded/IMAGES/cb_logo.jpeg'),
+                    url('http://localhost:8086/EDMS_war_exploded/IMAGES/mab_logo.jpeg'),
+                    url('http://localhost:8086/EDMS_war_exploded/IMAGES/aya_logo.jpeg'),
+                    url('http://localhost:8086/EDMS_war_exploded/IMAGES/yoma_logo.jpeg');
 
             background-repeat: no-repeat;
             background-position: 8% center, 18% center, 28% center, 38% center, 48% center; /* Adjusted spacing */
@@ -229,46 +241,11 @@
         <!-- Form Section -->
         <form class="space-y-6" action="AddContribution" method="post" enctype="multipart/form-data">
 
-            <!-- First Name -->
-            <label class="label">
-                <span class="label-text">Location UserName</span>
-            </label>
-            <input
-                    id="LocationusernameInput"
-                    name="LocationUsername"
-                    type="text"
-                    class="input-floral w-full"
-                    placeholder="Choose a Your First Name (only letters allowed)"
-                    required
-                    oninput="validateLocationUsername()"
-            />
-            <span id="usernameError" class="text-red-500 text-sm"></span>
-
-
-            <script>
-                function validateLocationUsername() {
-                    const usernameInput = document.getElementById('usernameInput');
-                    const usernameError = document.getElementById('usernameError');
-
-                    // Regular expression to allow only alphabetic characters
-                    const usernameRegex = /^[a-zA-Z]+$/;
-
-                    if (!usernameRegex.test(usernameInput.value)) {
-                        // Show error if the username contains invalid characters
-                        usernameError.textContent = 'First Name must contain only letters (A-Z or a-z).';
-                        usernameInput.classList.add('border-red-500');
-                        usernameInput.classList.remove('border-green-500');
-                    } else {
-                        // Clear error if the username is valid
-                        usernameError.textContent = '';
-                        usernameInput.classList.remove('border-red-500');
-                        usernameInput.classList.add('border-green-500');
-                    }
-                }
-            </script>
-
-
-
+            <!-- Location Username Field -->
+            <label for="locationusername">Location UserName:</label>
+            <input type="text" id="locationusername" name="locationusername"
+                   value="<%= locationUsername %>"
+                   readonly class="input-floral w-full">
 
             <!-- Email -->
             <label class="label">

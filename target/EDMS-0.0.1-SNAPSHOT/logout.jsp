@@ -3,10 +3,10 @@
 <%
     // Invalidate the current session
     //session.setAttribute("loggedInUser", null);
-HttpSession sessin = request.getSession(false);
-if (sessin != null) {
-    sessin.invalidate();
-}
+    HttpSession sessin = request.getSession(false);
+    if (sessin != null) {
+        sessin.invalidate();
+    }
     // Redirect to the login page or any other appropriate page
     response.sendRedirect("Login.jsp"); // Replace "login.jsp" with your login page URL
 %>

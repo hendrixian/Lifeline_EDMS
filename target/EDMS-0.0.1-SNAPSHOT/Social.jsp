@@ -48,7 +48,7 @@
     }
     try
     {
-        con=DriverManager.getConnection("jdbc:mysql://localhost:3306/disaster1" , "root","");
+        con=DriverManager.getConnection("jdbc:mysql://localhost:3306/edms" , "root","");
     }
     catch(SQLException e)
     {

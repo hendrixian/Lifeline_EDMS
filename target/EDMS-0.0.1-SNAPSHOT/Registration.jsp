@@ -16,7 +16,7 @@
     }
     try
     {
-        con=DriverManager.getConnection("jdbc:mariadb://localhost:3306/disaster1" , "root","");
+        con=DriverManager.getConnection("jdbc:mariadb://localhost:3306/edms" , "root","");
     }
     catch(SQLException e)
     {
@@ -1432,7 +1432,7 @@
             <!-- Logo Centered -->
             <div class="flex-grow text-center">
                 <h1 class="font-extrabold text-5xl text-white py-4 px-5 border-b-amber-500 hover:border-b-white border-b-[2px]
-                ">edms<span class="text-red-500">.</span></h1>
+                                ">edms<span class="text-red-500">.</span></h1>
             </div>
 
             <!-- User Icon -->
@@ -1639,7 +1639,7 @@
 
     <!-- select type -->
     <label class="label">
-        <span class="label-text">Select User Type</span>
+        <span class="label-text">Select User Activity</span>
     </label>
     <select class="select select-bordered input-floral w-full"  name="UserType"required>
         <option disabled selected>Pick one</option>
@@ -1777,7 +1777,7 @@
     </div>
     <!-- contact no -->
     <label class="label">
-        <span class="label-text">Mobile No</span>
+        <span class="label-text">Mobile Number of User</span>
     </label>
     <input
             id="mobileInput"
@@ -1814,7 +1814,6 @@
     <!-- Image upload -->
 
     <label class="block text-gray-700 font-bold mb-2"></label>
-    <p class="text-gray-600 text-sm mb-2">(Upload your face photo)</p>
     <input
             class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-orange-400 hover:file:bg-blue-200 mb-4"
             type="file"
