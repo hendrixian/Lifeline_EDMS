@@ -45,6 +45,7 @@ public class Weather extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Concurrent map to store city temperatures
         Map<String, Double> myanmarTemperatures = new ConcurrentHashMap<>();
+        Map<String, Double> myanmarPressures = new ConcurrentHashMap<>();
         Map<String, JsonObject> weatherDataMap = new ConcurrentHashMap<>();
 
 
@@ -65,11 +66,15 @@ public class Weather extends HttpServlet {
         // Sort and get the top 3 highest and lowest temperatures
         Map<String, Double> highestTemperatures = getTopTemperatures(myanmarTemperatures, true);
         Map<String, Double> lowestTemperatures = getTopTemperatures(myanmarTemperatures, false);
+        Map<String, Double> highestPressures = getTopTemperatures(myanmarPressures, true);
+        Map<String, Double> lowestPressures = getTopTemperatures(myanmarPressures, false);
 
 
         request.setAttribute("WeatherData", weatherDataMap);
         request.setAttribute("highestTemperatures", highestTemperatures);
         request.setAttribute("lowestTemperatures", lowestTemperatures);
+        request.setAttribute("highestPressures", highestPressures);
+        request.setAttribute("lowestPressures", lowestPressures);
 
         // Forward to JSP
         request.getRequestDispatcher("Weather.jsp").forward(request, response);
