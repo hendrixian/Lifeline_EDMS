@@ -73,7 +73,7 @@ public class MachineLearning extends HttpServlet {
 		
 		try 
 		{
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName("org.mariadb.jdbc.Driver");
 		}
 		catch(ClassNotFoundException e)
 		{
@@ -81,7 +81,7 @@ public class MachineLearning extends HttpServlet {
 		}
 		try
 		{
-			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/edms" , "root","");
+			con=DriverManager.getConnection("jdbc:mariadb://localhost:3306/edms" , "root","");
 		}
 		catch(SQLException e)
 		{

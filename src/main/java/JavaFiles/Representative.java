@@ -32,8 +32,8 @@ public class Representative extends HttpServlet {
         try {
             // Step 1: Establish database connection
             out.println("Connecting to database...");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/edms", "root", "");
+            Class.forName("org.mariadb.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/edms", "root", "");
             out.println("Database connected successfully.");
 
             // Step 2: Get form parameters

@@ -7,7 +7,6 @@
 <head>
     <!--
     <title>Emergency Disaster Management System-Shelter & Areas</title>
-        <link rel="stylesheet" href = "CSS/Shelter_and_areas.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 
      -->
@@ -24,9 +23,9 @@
     <!-- AOS CDN -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <!-- Font Awesome -->
+    <link rel="stylesheet" href = "CSS/Shelter_and_areas.css">
     <script src="https://kit.fontawesome.com/f13afb77f1.js" crossorigin="anonymous"></script>
     <script src="LocationData.js" defer></script>
-
 </head>
 <body>
 
@@ -38,12 +37,10 @@
         .then(res => res.json())
         .then(data => {
             const table = document.getElementById('data_table');
-            const verifiedIcon = `
-			<img src="IMAGES/badge-2.png" class="max-h-[30px] max-w[30px]]" />
-		`
-            const activeBadge = `<div class="badge badge-accent">Active</div>`
-            const inactiveBadge = `<div class="badge badge-warning">Inactive</div>`
-            const criticalBadge = `<div class="badge badge-error">Critical Help Needed</div>`
+
+            const activeBadge = `<div class="badge badge-accent whitespace-nowrap">Active</div>`
+            const inactiveBadge = `<div class="badge badge-warning whitespace-nowrap">Inactive</div>`
+            const criticalBadge = `<div class="badge badge-error whitespace-nowrap">Critical Help Needed</div>`
 
 
 
@@ -51,14 +48,12 @@
 
             table_html += `
 			<tr class="dat_tab">
-		        <th class="dat1"></th>
 		        <th class="dat2">Name</th>
 		        <th class="dat3">Type</th>
 		        <th class="dat4">Activity</th>
 		    </tr>
 		`;
 
-            const verifiedList = data[0]
             const nameList = data[1]
             const typeList = data[2]
             const activityList = data[3]
@@ -68,15 +63,10 @@
             const userList = data[7]
 // 		console.log(verifiedList)
 
-            for(let i=0; i<verifiedList.length; i++){
-                table_html += '<tr  class="dat_tab hover:bg-slate-200" data-aos="fade-right">';
+            for(let i=0; i<nameList.length; i++){
+                table_html += '<tr  class="dat_tab hover:bg-slate-200" >';
 
-                if(verifiedList[i] == null) {
-                    table_html += '<td class="dat1">' + '</td>';
-                }
-                else {
-                    table_html += '<td class="dat1">' + verifiedIcon + '</td>';
-                }
+
 
 
                 table_html = table_html + '<td class="dat2"><a href="Location_Profile.jsp?LocationUsernameFromShelterPage='+userList[i]+ '"class="hover:text-red-500">' + nameList[i] + '</a></td>';
@@ -245,9 +235,9 @@
         </div>
     </div>
     <!-- Table -->
-    <div class="overflow-x-auto">
-        <table class="table" id="data_table">
-
+    <div class="table-container">
+        <table class="table text-center min-w-full" id="data_table">
+            <!-- Dynamic table content will be inserted here -->
         </table>
     </div>
 </div>
@@ -264,9 +254,7 @@
         const division = divComponent.options[divComponent.selectedIndex].text;
         const city = cityComponent.options[cityComponent.selectedIndex].text;
         const township = townshipComponent.options[townshipComponent.selectedIndex].text;
-        const verifiedIcon = `
-        			<img src="IMAGES/badge-2.png" class="max-h-[30px] max-w[30px]]" />
-        		`
+
 
         const activeBadge = `<div class="badge badge-accent">Active</div>`
         const inactiveBadge = `<div class="badge badge-warning">Inactive</div>`
@@ -274,7 +262,6 @@
 
 
         let new_table_data = `<tr class="dat_tab">
-    		        <th class="dat1"></th>
     		        <th class="dat2"><a href="../Home/Home.html">Name</a></th>
     		        <th class="dat3">Type</th>
     		        <th class="dat4">Activity</th>
@@ -284,7 +271,6 @@
             .then(res => res.json())
             .then(data => {
                 console.log(data)
-                const verifiedList = data[0]
                 const nameList = data[1]
                 const typeList = data[2]
                 const activityList = data[3]
@@ -295,16 +281,11 @@
                 //console.log(verifiedList)
 
                 if(township !== 'None'){
-                    for(let i=0; i<verifiedList.length; i++){
+                    for(let i=0; i<nameList.length; i++){
                         if(townshipList[i] === township){
-                            new_table_data = new_table_data + '<tr  class="dat_tab hover:bg-slate-200" data-aos="fade-right">';
+                            new_table_data = new_table_data + '<tr  class="dat_tab hover:bg-slate-200" >';
 
-                            if(verifiedList[i] == null) {
-                                new_table_data += '<td class="dat1">' + '</td>';
-                            }
-                            else {
-                                new_table_data += '<td class="dat1">' + verifiedIcon + '</td>';
-                            }
+
 
                             new_table_data = new_table_data + '<td class="dat2"><a href="Location_Profile.jsp?LocationUsernameFromShelterPage='+userList[i]+ '"class="hover:text-red-500">' + nameList[i] + '</a></th>';
 
@@ -325,16 +306,11 @@
                     }
                 }
                 else if(city !== 'None'){
-                    for(let i=0; i<verifiedList.length; i++){
+                    for(let i=0; i<nameList.length; i++){
                         if(ctList[i] === city){
-                            new_table_data = new_table_data + '<tr  class="dat_tab hover:bg-slate-200 data-aos="fade-right"">';
+                            new_table_data = new_table_data + '<tr  class="dat_tab hover:bg-slate-200 ">';
 
-                            if(verifiedList[i] == null) {
-                                new_table_data += '<td class="dat1">' + '</td>';
-                            }
-                            else {
-                                new_table_data += '<td class="dat1">' + verifiedIcon + '</td>';
-                            }
+
 
                             new_table_data = new_table_data + '<td class="dat2"><a href="Location_Profile.jsp?LocationUsernameFromShelterPage='+userList[i]+ '"class="hover:text-red-500">' + nameList[i] + '</a></th>';
 
@@ -356,16 +332,11 @@
                     }
                 }
                 else if(division !== 'None'){
-                    for(let i=0; i<verifiedList.length; i++){
+                    for(let i=0; i<nameList.length; i++){
                         if(divList[i] === division){
-                            new_table_data = new_table_data + '<tr  class="dat_tab hover:bg-slate-200" data-aos="fade-right">';
+                            new_table_data = new_table_data + '<tr  class="dat_tab hover:bg-slate-200" >';
 
-                            if(verifiedList[i] == null) {
-                                new_table_data += '<td class="dat1">' + '</td>';
-                            }
-                            else {
-                                new_table_data += '<td class="dat1">' + verifiedIcon + '</td>';
-                            }
+
 
                             new_table_data = new_table_data + '<td class="dat2"><a href="Location_Profile.jsp?LocationUsernameFromShelterPage='+userList[i]+ '"class="hover:text-red-500">' + nameList[i] + '</a></th>';
 
@@ -387,17 +358,12 @@
                     }
                 }
                 else {
-                    for(let i=0; i<verifiedList.length; i++){
+                    for(let i=0; i<nameList.length; i++){
                         //console.log("wow");
-                        new_table_data = new_table_data + '<tr  class="dat_tab hover:bg-slate-200" data-aos="fade-right">';
+                        new_table_data = new_table_data + '<tr  class="dat_tab hover:bg-slate-200" >';
 //      						new_table_data = new_table_data + '<td class="dat1">' + verifiedList[i] + '</th>';
 
-                        if(verifiedList[i] == null) {
-                            new_table_data += '<td class="dat1">' + '</td>';
-                        }
-                        else {
-                            new_table_data += '<td class="dat1">' + verifiedIcon + '</td>';
-                        }
+
 
                         new_table_data = new_table_data + '<td class="dat2"><a href="Location_Profile.jsp?LocationUsernameFromShelterPage='+userList[i]+ '"class="hover:text-red-500">' + nameList[i] + '</a></th>';
 
@@ -431,7 +397,7 @@
 <!-- Start of reference -->
 <div class="p-6 m-6 flex flex-col justify-center items-center">
     <h5 class="text-center text-slate-400 font-semibold italic">In our ML regression analysis, we gratefully acknowledge the utilization of data from <a class="text-center text-slate-400 italic underline hover:text-black" href="http://www.ffwc.gov.bd/" target="_blank">Flood Forcasting & Warning Center</a> to enhance our model's accuracy and effectiveness.</h5>
-``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+    ``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
 </div>
 <!-- End of reference -->
 <!-- Start of Footer -->

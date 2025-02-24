@@ -1,5 +1,6 @@
 package JavaFiles;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -44,10 +45,12 @@ public class Weather extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Concurrent map to store city temperatures
         Map<String, Double> myanmarTemperatures = new ConcurrentHashMap<>();
+        Map<String, JsonObject> weatherDataMap = new ConcurrentHashMap<>();
+
 
         // Fetch weather data for predefined cities asynchronously
         for (String city : PREDEFINED_CITIES) {
-            fetchWeather(city, myanmarTemperatures);
+            fetchWeather(city, myanmarTemperatures, weatherDataMap);
         }
 
         // Fetch and process the bulk list of cities
@@ -63,7 +66,8 @@ public class Weather extends HttpServlet {
         Map<String, Double> highestTemperatures = getTopTemperatures(myanmarTemperatures, true);
         Map<String, Double> lowestTemperatures = getTopTemperatures(myanmarTemperatures, false);
 
-        // Set attributes for the JSP
+
+        request.setAttribute("WeatherData", weatherDataMap);
         request.setAttribute("highestTemperatures", highestTemperatures);
         request.setAttribute("lowestTemperatures", lowestTemperatures);
 
@@ -74,12 +78,14 @@ public class Weather extends HttpServlet {
     /**
      * Fetches weather data for a city asynchronously and updates the temperatures map.
      */
-    private void fetchWeather(String city, Map<String, Double> myanmarTemperatures) {
+    private void fetchWeather(String city, Map<String, Double> myanmarTemperatures,Map<String, JsonObject> weatherDataMap) {
         String urlString = BASE_URL + "?q=" + city + "&appid=" + API_KEY + "&units=metric";
         sendHttpRequest(urlString).thenAccept(weatherData -> {
             if (weatherData != null) {
                 double temp = weatherData.getAsJsonObject("main").get("temp").getAsDouble();
                 myanmarTemperatures.put(city, temp);
+                weatherDataMap.put(city,weatherData);
+
             }
         });
     }

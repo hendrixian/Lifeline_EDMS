@@ -97,7 +97,7 @@
         <input type="text" id="searchBar" placeholder="Search for a city..." onkeyup="filterCities()"/>
         <div id="suggestions" class="suggestions-dropdown" style="display: none;"></div>
         <%
-            Map<String, JsonObject> weatherDataMap = (Map<String, JsonObject>) request.getAttribute("weatherDataMap");
+            Map<String, JsonObject> weatherDataMap = (Map<String, JsonObject>) request.getAttribute("WeatherData");
 
             if (weatherDataMap != null) {
                 for (Map.Entry<String, JsonObject> entry : weatherDataMap.entrySet()) {
