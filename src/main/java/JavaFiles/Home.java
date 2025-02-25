@@ -27,7 +27,8 @@ public class Home extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     // Database credentials
-    private static final String DB_URL = "jdbc:mariadb://localhost:3306/disaster1";
+    private static final String DB_URL = "jdbc:mariadb://localhost:3306/edms" +
+            "";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
 

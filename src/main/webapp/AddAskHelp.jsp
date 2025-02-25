@@ -65,6 +65,12 @@
             font-size: 16px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease-in-out;
+            resize:none;
+            overflow-y:scroll;
+            scrollbar-width:none;
+        }
+        .input-floral::-webkit-scrollbar {
+            display: none; /* For Chrome, Safari, and Edge: hides scrollbar */
         }
 
         .input-floral:focus {
@@ -85,7 +91,9 @@
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease-in-out;
+
         }
+
 
         .btn-floral:hover {
             background-color: #e85d04;
@@ -120,35 +128,35 @@
     <div class="my-container">
         <!-- Large Screen Navbar -->
         <div class="hidden lg:flex items-center justify-between">
-            <button onclick="window.location.href='Location_Profile.jsp'" class="text-white hover:text-red-500 transition duration-300">
+            <button onclick="window.location.href='AddPost.jsp'" class="text-white hover:text-red-500 transition duration-300">
                 <i class="fa-solid fa-arrow-left text-3xl"></i>
             </button>
             <div class="flex-grow text-center">
-                <h1 class="font-extrabold text-5xl text-white py-4 px-5 border-b-amber-500 hover:border-b-white border-b-[2px]">edms<span class="text-red-500">.</span></h1>
+                <h1 class="font-extrabold text-5xl text-white py-4 px-5 border-b-amber-500 hover:border-b-white border-b-[2px]">edms <span class="text-red-500">.</span></h1>
             </div>
-          <!--  <div class="flex justify-end items-center text-[18px]">
-                <a href="Location_Profile.jsp" class="hover:text-white transition duration-300">
-                    <i class="fa-regular fa-circle-user"></i>
-                </a>
-            </div>-->
+            <!--  <div class="flex justify-end items-center text-[18px]">
+                  <a href="Location_Profile.jsp" class="hover:text-white transition duration-300">
+                      <i class="fa-regular fa-circle-user"></i>
+                  </a>
+              </div>-->
         </div>
         <!-- Small Screen Navbar -->
         <div class="navbar bg-amber-500 lg:hidden min-h-[100px]">
-           <div class="navbar-start flex items-center">
-                <button onclick="window.location.href='Location_Profile.jsp'" class="text-white hover:text-red-500 transition duration-300">
+            <div class="navbar-start flex items-center">
+                <button onclick="window.location.href='AddPost.jsp'" class="text-white hover:text-red-500 transition duration-300">
                     <i class="fa-solid fa-arrow-left text-[40px]"></i>
                 </button>
             </div>
-           <!-- <div class="navbar-center flex justify-center">
-                <a href='Home.jsp'>
-                    <h1 class="font-extrabold text-[50px] text-white">edms<span class="text-red-500">.</span></h1>
-                </a>
-            </div>-->
-           <!-- <div class="navbar-end">
-                <a href="Profile.jsp" class="hover:text-[#F17829] transition duration-300">
-                    <i class="fa-regular fa-circle-user text-[40px]"></i>
-                </a>
-            </div>-->
+            <!-- <div class="navbar-center flex justify-center">
+                 <a href='Home.jsp'>
+                     <h1 class="font-extrabold text-[50px] text-white">edms<span class="text-red-500">.</span></h1>
+                 </a>
+             </div>-->
+            <!-- <div class="navbar-end">
+                 <a href="Profile.jsp" class="hover:text-[#F17829] transition duration-300">
+                     <i class="fa-regular fa-circle-user text-[40px]"></i>
+                 </a>
+             </div>-->
         </div>
     </div>
 </div>
@@ -175,9 +183,11 @@
                         <label class="block text-gray-700 mb-2 font-medium">What do you need help with?</label>
                         <textarea class="textarea textarea-bordered h-24 input-floral w-full" placeholder="Write your request..." required name="Description"></textarea>
                         <div class="flex space-x-2 mt-3">
+
                             <input type="file" id="ImageName1" name="ImageName1" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gradient-to-r file:from-yellow-300 file:to-white hover:file:bg-gradient-to-r hover:file:from-yellow-200 hover:file:to-white mb-4" required>
+
                             <input type="file" id="ImageName2" name="ImageName2" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gradient-to-r file:from-yellow-300 file:to-white hover:file:bg-gradient-to-r hover:file:from-yellow-200 hover:file:to-white mb-4" required>
-                            <button class="ml-auto text-gray-500 text-lg"><i class="fas fa-camera"></i></button>
+
                         </div>
                     </div>
                     <div class="pt-[20px]">
@@ -190,16 +200,16 @@
                 <div class="w-[28%] pl-4 flex flex-col justify-center gap-4"> <!-- Added gap -->
                     <label class="block text-gray-700 font-medium">Affected People Count </label>
                     <div class="mt-2 "> <!-- Added ml-6 to move right -->
-                        <label class="block text-gray-700 font-medium">Male</label>
-                        <input type="number" class="input-floral w-full" name="help-am" id="help-am" required>
+                        <label class="block text-gray-700 font-medium">Number of Male</label>
+                        <input type="number" class="input-floral w-full" name="help-am" id="help-am" min="0" required>
                     </div>
                     <div class="mt-2 "> <!-- Added ml-6 to move right -->
-                        <label class="block text-gray-700 font-medium">Female</label>
-                        <input type="number" class="input-floral w-full" name="help-af" id="help-af" required>
+                        <label class="block text-gray-700 font-medium">Number of Female</label>
+                        <input type="number" class="input-floral w-full" name="help-af" id="help-af" min="0" required>
                     </div>
                     <div class="mt-2 "> <!-- Added ml-6 to move right -->
-                        <label class="block text-gray-700 font-medium">Children</label>
-                        <input type="number" class="input-floral w-full" name="help-ac" id="help-ac" required>
+                        <label class="block text-gray-700 font-medium">Number of Children</label>
+                        <input type="number" class="input-floral w-full" name="help-ac" id="help-ac" min="0" required>
 
                     </div>
                 </div>

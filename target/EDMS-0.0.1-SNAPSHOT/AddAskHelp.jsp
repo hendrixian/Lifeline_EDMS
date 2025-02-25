@@ -132,7 +132,7 @@
                 <i class="fa-solid fa-arrow-left text-3xl"></i>
             </button>
             <div class="flex-grow text-center">
-                <h1 class="font-extrabold text-5xl text-white py-4 px-5 border-b-amber-500 hover:border-b-white border-b-[2px]">edms<span class="text-red-500">.</span></h1>
+                <h1 class="font-extrabold text-5xl text-white py-4 px-5 border-b-amber-500 hover:border-b-white border-b-[2px]">edms <span class="text-red-500">.</span></h1>
             </div>
             <!--  <div class="flex justify-end items-center text-[18px]">
                   <a href="Location_Profile.jsp" class="hover:text-white transition duration-300">

@@ -17,6 +17,33 @@
     padding-left: 16px;
     padding-right: 16px;
 }
+/* Table container with fixed height and overflow */
+.table-container {
+    max-height: 400px; /* Adjust the height as needed */
+    overflow-y: auto;  /* Adds vertical scrollbar when content exceeds max height */
+    width: 100%;       /* Make the table container take the full width of its parent */
+    border: 1px solid #ccc; /* Optional border styling */
+}
+
+table {
+    width: 100%;  /* Ensure the table takes up the full width */
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.dat_tab {
+    transition: background-color 0.3s ease; /* Optional: for hover effect */
+}
+
+.dat_tab:hover {
+    background-color: #f0f0f0; /* Optional: Hover effect */
+}
+
 
 
 /* breakpoint for small size screen */
@@ -42,3 +69,4 @@
         padding-right: 5rem;
     }
 }
+

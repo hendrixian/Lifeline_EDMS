@@ -34,7 +34,7 @@ public class AddContribution extends HttpServlet {
 		String note = request.getParameter("Note");
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/disaster1", "root", "");
+			con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/edms", "root", "");
 
 			String sql = "INSERT INTO contributions (LocationUsername, Email, ShelterName, Amount, PaymentMethod, CardInfo, Note, Date, Seconds) "
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";

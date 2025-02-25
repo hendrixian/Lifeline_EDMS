@@ -67,7 +67,7 @@ public class AddAskHelp extends HttpServlet {
 		try {
 			// Connect to the database
 			Class.forName("org.mariadb.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/disaster1", "root", "");
+			con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/edms", "root", "");
 			if (con == null || con.isClosed()) {
 				logger.info("Database connection is null or closed!");
 				// You can also send an error message to the user or log this error
@@ -136,7 +136,7 @@ public class AddAskHelp extends HttpServlet {
 			Class.forName("org.mariadb.jdbc.Driver");
 
 			// Establish database connection
-			con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/disaster1", "root", "");
+			con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/edms", "root", "");
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			request.setAttribute("message", "Database connection error: " + e.getMessage());

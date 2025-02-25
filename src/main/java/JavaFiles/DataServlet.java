@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,9 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-@WebServlet("/api/data")
+@WebServlet(name = "Shelter_and_Areas", urlPatterns = {"/Shelter_and_Areas"})
 public class DataServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
 
 	public DataServlet() {
@@ -26,9 +24,6 @@ public class DataServlet extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		// Handle API request
@@ -36,7 +31,7 @@ public class DataServlet extends HttpServlet {
 			Connection connection = null;
 			try
 			{
-				Class.forName("com.mysql.cj.jdbc.Driver");
+				Class.forName("org.mariadb.jdbc.Driver");
 			}
 			catch(ClassNotFoundException e)
 			{
@@ -44,22 +39,22 @@ public class DataServlet extends HttpServlet {
 			}
 			try
 			{
-				connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/edms" , "root","");
+				connection=DriverManager.getConnection("jdbc:mariadb://localhost:3306/edms" , "root","");
 			}
 			catch(SQLException e)
 			{
 				e.printStackTrace();
 			}
-			String query = "SELECT * FROM location_added  order by TotalPriority desc";
+			String query = "SELECT * FROM representative order by TotalPriority desc";
 
 			Statement stmt;
 			ArrayList<String>Verified1=new ArrayList();
 			ArrayList<String>Name1=new ArrayList();
 			ArrayList<String>Type1=new ArrayList();
 			ArrayList<String>Activity1=new ArrayList();
-			ArrayList<String>District1=new ArrayList();
-			ArrayList<String>Upazilla1=new ArrayList();
-			ArrayList<String>Union1=new ArrayList();
+			ArrayList<String> Division1 =new ArrayList();
+			ArrayList<String> City1 =new ArrayList();
+			ArrayList<String> Township1 =new ArrayList();
 			ArrayList<String>Username1=new ArrayList();
 			try
 			{
@@ -67,19 +62,24 @@ public class DataServlet extends HttpServlet {
 				ResultSet rs = stmt.executeQuery(query);
 				while(rs.next())
 				{
-					String name = rs.getString("Name");
-					String type = rs.getString("Type");
-					String activ = rs.getString("Activity");
-					String LocUser = rs.getString("LocationUsername");
+					String name = rs.getString("sheltername");
+					String type = rs.getString("type");
+					String activ = rs.getString("activity");
+					String LocUser = rs.getString("Zipcode");
+
+					/**
 					String dist = rs.getString("District");
 					String upa = rs.getString("Upazilla");
 					String uni = rs.getString("Unionn");
-					String user= rs.getString("LocationUsername");
+					**/
+                    String user= rs.getString("Representativename");
 
 
-					String Verified = null;
+					String Div = null;
+					String City = null;
+					String Township = null;
 
-					String query2 = "SELECT * FROM location_verfied where LocationUsername = '"+LocUser+"'";
+					String query2 = "SELECT * FROM myanmar where Zipcode = '"+LocUser+"'";
 					try
 					{
 						Statement stmt2 = connection.createStatement();
@@ -88,7 +88,9 @@ public class DataServlet extends HttpServlet {
 
 						while(rs2.next())
 						{
-							Verified = rs2.getString("LocationUsername");
+							Div = rs2.getString("Divisions");
+							City = rs2.getString("Cities");
+							Township = rs2.getString("Townships");
 						}
 
 					}
@@ -99,14 +101,14 @@ public class DataServlet extends HttpServlet {
 
 
 
-					Verified1.add(Verified);
+					Verified1.add(Div);
 					Name1.add(name);
 					Type1.add(type);
 					Activity1.add(activ);
-					District1.add(dist);
-					Upazilla1.add(upa);
-					Union1.add(uni);
-					Username1.add(user);
+                    Username1.add(user);
+					Division1.add(Div);
+					City1.add(City);
+					Township1.add(Township);
 					//System.out.println("none"+Activity1.size());
 
 				}
@@ -122,9 +124,9 @@ public class DataServlet extends HttpServlet {
 			mergedList.add(Name1);
 			mergedList.add(Type1);
 			mergedList.add(Activity1);
-			mergedList.add(District1);
-			mergedList.add(Upazilla1);
-			mergedList.add(Union1);
+			mergedList.add(Division1);
+			mergedList.add(City1);
+			mergedList.add(Township1);
 			mergedList.add(Username1);
 			// Convert the data to JSON
 			ObjectMapper objectMapper = new ObjectMapper();

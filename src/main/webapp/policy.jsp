@@ -93,6 +93,117 @@
             padding-left: 15px;
             transition: all 0.3s ease;
         }
+        /* Register button container */
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            background-color: #FFC107; /* Yellow color */
+            border: none;
+            color: black;
+            font-weight: bold;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 25px; /* Rounded corners */
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            transition: background-color 0.3s ease;
+        }
+
+        .button-container button:hover {
+            background-color: #FFA000; /* Slightly darker yellow on hover */
+        }
+
+        /* Checkbox */
+        .terms-container {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1em;
+            margin-bottom: 10px; /* Reduce the space between the checkbox and the button */
+        }
+
+        .terms-container input[type="checkbox"] {
+            display: none; /* Hide default checkbox */
+        }
+
+        .terms-container label {
+            position: relative;
+            padding-left: 30px;
+            cursor: pointer;
+            font-size: 1em;
+            color: #333;
+            display: inline-block;
+        }
+
+        .terms-container label:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #FFC107; /* Yellow border */
+            border-radius: 3px; /* Slightly rounded corners */
+            background-color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        .terms-container input[type="checkbox"]:checked + label:before {
+            background-color: #FFC107; /* Yellow background when checked */
+            border-color: #FFA000; /* Slightly darker yellow */
+        }
+
+        .terms-container label:after {
+            content: "✓";
+            position: absolute;
+            left: 5px;
+            top: -2px;
+            font-size: 18px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .terms-container input[type="checkbox"]:checked + label:after {
+            opacity: 1;
+        }
+        /* Custom alert styles */
+        .custom-alert {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            color: black;
+            border: 3px solid #FFC107;
+            border-radius: 8px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+        }
+
+        .custom-alert button {
+            background-color: #e5e7eb;
+            color: black;
+            border: 1px solid #FFC107;
+            padding: 10px 20px;
+            margin-top: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .custom-alert button:hover {
+            background-color: #FFC107;
+        }
+
 
     </style>
 </head>
@@ -197,7 +308,42 @@
         <li><strong>Property Protection:</strong> Shelter organizers should not be liable for loss or damage to personal property, but must take precautions to protect belongings.</li>
     </ul>
 </div>
+<!-- Accept Terms and Register Button Section -->
+<div class="terms-container">
+
+    <input type="checkbox" id="acceptTerms">
+    <label for="acceptTerms">I accept the terms and conditions</label>
+</div>
+<div id="customAlert" class="custom-alert">
+    <p>You must accept the terms and conditions before proceeding.</p>
+    <button onclick="closeAlert()">OK</button>
+</div>
 
 
+<div class="button-container">
+    <form action="representative.jsp" onsubmit="return checkTerms()">
+        <button type="submit">Proceed to Registration</button>
+    </form>
+</div>
+<script>
+    function checkTerms() {
+        var termsCheckbox = document.getElementById("acceptTerms");
+        if (!termsCheckbox.checked) {
+            showCustomAlert();
+            return false;
+        }
+        return true;
+    }
+
+    function showCustomAlert() {
+        var alertBox = document.getElementById("customAlert");
+        alertBox.style.display = "block";
+    }
+
+    function closeAlert() {
+        var alertBox = document.getElementById("customAlert");
+        alertBox.style.display = "none";
+    }
+</script>
 </body>
 </html>
