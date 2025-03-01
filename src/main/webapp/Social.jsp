@@ -127,12 +127,13 @@
         <p class="text-gray-700 text-base mb-3"><%= post.getDescription() %></p>
         <div class="grid grid-cols-2 gap-2">
             <% if (post.getPhoto1() != null && !post.getPhoto1().isEmpty()) { %>
-            <img src="<%= post.getPhoto1() %>" alt="Post Image" class="rounded-lg w-full h-40 object-cover">
+            <img src="post_images/<%= post.getPhoto1() %>" alt="Post Image" class="rounded-lg w-full h-40 object-cover">
             <% } %>
             <% if (post.getPhoto2() != null && !post.getPhoto2().isEmpty()) { %>
-            <img src="<%= post.getPhoto2() %>" alt="Post Image" class="rounded-lg w-full h-40 object-cover">
+            <img src="post_images/<%= post.getPhoto2() %>" alt="Post Image" class="rounded-lg w-full h-40 object-cover">
             <% } %>
         </div>
+
     </div>
     <%
         }

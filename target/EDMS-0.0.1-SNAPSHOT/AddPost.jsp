@@ -12,7 +12,7 @@
         e.printStackTrace();
     }
     try {
-        con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/edms", "root", "");
+        con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/disaster1", "root", "");
     } catch (SQLException e) {
         e.printStackTrace();
     }
