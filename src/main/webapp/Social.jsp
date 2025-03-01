@@ -18,30 +18,83 @@
 </head>
 <body class="bg-gray-100">
 
-<!-- Navbar -->
+<%
+    // Get current page URL for active navbar link
+    String currentPage = request.getRequestURI();
+    Object loggedInUser = session.getAttribute("loggedInUser");
+    Object loggedInRepresentative = session.getAttribute("loggedInRepresentative");
+%>
+
+<!-- Start of Navbar -->
 <div class="fixed top-0 left-0 right-0 z-50 border-b-[1px] bg-amber-500">
+
     <div class="my-container">
+        <!-- For Large Device -->
         <div class="hidden lg:flex items-center justify-between">
+            <!-- Logo -->
             <a href='Home.jsp'>
                 <h1 class="font-extrabold text-5xl text-white">edms<span class="text-red-500">.</span></h1>
             </a>
-            <div class="flex flex-row items-center gap-3">
-                <a href="Home.jsp" class="text-white py-5 px-6 hover:border-b-white border-b-[3px] transition duration-500">Home</a>
-                <a href="Shelter_and_Areas.jsp" class="text-black py-5 px-6 hover:border-b-white border-b-[3px] transition duration-500">Shelters & Areas</a>
-                <a href="Social.jsp" class="text-black py-5 px-6 hover:border-b-white border-b-[3px] transition duration-500">Social</a>
-                <a href="Faq.jsp" class="text-black py-5 px-6 hover:border-b-white border-b-[3px] transition duration-500">FAQ</a>
+
+            <!-- Nav links for medium and large devices -->
+            <div class="flex flex-row items-center justify-between gap-3 md:gap-0">
+                <a href="Home.jsp" class="<%= currentPage.contains("Home.jsp") ? "text-white border-b-white" : "text-black border-b-amber-500" %> h-full py-5 px-6 border-b-[3px] hover:border-b-white hover:text-white transition duration-500">Home</a>
+                <a href="Shelter_and_Areas.jsp" class="<%= currentPage.contains("Shelter_and_Areas.jsp") ? "text-white border-b-white" : "text-black border-b-amber-500" %> h-full py-5 px-6 border-b-[3px] hover:border-b-white hover:text-white transition duration-500">Shelters & Areas</a>
+                <a href="Social.jsp" class="<%= currentPage.contains("Social.jsp") ? "text-white border-b-white" : "text-black border-b-amber-500" %> h-full py-5 px-6 border-b-[3px] hover:border-b-white hover:text-white transition duration-500">Social</a>
+                <a href="Faq.jsp" class="<%= currentPage.contains("Faq.jsp") ? "text-white border-b-white" : "text-black border-b-amber-500" %> h-full py-5 px-6 border-b-[3px] hover:border-b-white hover:text-white transition duration-500">FAQ</a>
             </div>
+
+            <!-- User Icon -->
             <div class="flex justify-center items-center text-[18px]">
-                <% if (session.getAttribute("loggedInUser") != null) { %>
+                <% if (loggedInUser != null) { %>
                 <a href="Profile_user.jsp" class="hover:text-white transition duration-300">
                     <i class="fa-regular fa-circle-user text-[40px]"></i>
                 </a>
-                <% } else if (session.getAttribute("loggedInRepresentative") != null) { %>
+                <% } else if (loggedInRepresentative != null) { %>
                 <a href="Location_Profile.jsp" class="hover:text-white transition duration-300">
                     <i class="fa-regular fa-circle-user text-[40px]"></i>
                 </a>
                 <% } else { %>
                 <a href="Login.jsp" class="hover:text-white transition duration-300">
+                    <i class="fa-regular fa-circle-user text-[40px]"></i>
+                </a>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- For Medium and Small Devices -->
+        <div class="navbar bg-base-100 lg:hidden bg-amber-500 min-h-[100px]">
+            <div class="navbar-start">
+                <div class="dropdown">
+                    <label tabindex="0" class="btn btn-ghost btn-circle">
+                        <i class="fa-solid fa-bars text-[40px]"></i>
+                    </label>
+
+                    <ul tabindex="0"
+                        class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-[400px] flex flex-col gap-5 p-5">
+                        <li><a href="Home.jsp" class="text-[40px] <%= currentPage.contains("Home.jsp") ? "text-[#F17829]" : "text-[#293341]" %> block border-b-[1px] p-3 hover:text-[#F17829] transition duration-500">Homepage</a></li>
+                        <li><a href="Shelter_and_Areas.jsp" class="text-[40px] <%= currentPage.contains("Shelter_and_Areas.jsp") ? "text-[#F17829]" : "text-[#293341]" %> block border-b-[1px] p-3 hover:text-[#F17829] transition duration-500">Shelters & Areas</a></li>
+                        <li><a href="Social.jsp" class="text-[40px] <%= currentPage.contains("Social.jsp") ? "text-[#F17829]" : "text-[#293341]" %> block border-b-[1px] p-3 hover:text-[#F17829] transition duration-500">Social</a></li>
+                        <li><a href="Faq.jsp" class="text-[40px] <%= currentPage.contains("Faq.jsp") ? "text-[#F17829]" : "text-[#293341]" %> block border-b-[1px] p-3 hover:text-[#F17829] transition duration-500">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="navbar-center">
+                <a href='Home.jsp'>
+                    <h1 class="font-extrabold text-[50px] text-white">edms<span class="text-red-500">.</span></h1>
+                </a>
+            </div>
+            <div class="navbar-end">
+                <% if (loggedInUser != null) { %>
+                <a href="Profile_user.jsp" class="hover:text-[#F17829] transition duration-300">
+                    <i class="fa-regular fa-circle-user text-[40px]"></i>
+                </a>
+                <% } else if (loggedInRepresentative != null) { %>
+                <a href="Location_Profile.jsp" class="hover:text-[#F17829] transition duration-300">
+                    <i class="fa-regular fa-circle-user text-[40px]"></i>
+                </a>
+                <% } else { %>
+                <a href="Login.jsp" class="hover:text-[#F17829] transition duration-300">
                     <i class="fa-regular fa-circle-user text-[40px]"></i>
                 </a>
                 <% } %>
