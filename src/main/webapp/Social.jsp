@@ -5,92 +5,46 @@
 <html>
 <head>
     <title>Social Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #d3e7f1;
-            margin: 0;
-            padding: 0;
-        }
-        .header {
-            background-color: #f4b400;
-            height: 50px;
-            margin-bottom: 20px;
-        }
-        .post-container {
-            background-color: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin: 20px auto;
-            width: 80%;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        .profile-pic {
-            width: 40px;
-            height: 40px;
-            background-color: #f4b400;
-            border-radius: 50%;
-            display: inline-block;
-            vertical-align: middle;
-        }
-        .username {
-            display: inline-block;
-            margin-left: 10px;
-            font-weight: bold;
-        }
-        .blue-mark {
-            color: blue;
-        }
-        .post-info {
-            color: gray;
-            font-size: 12px;
-        }
-        .content {
-            margin: 10px 0;
-        }
-        .image-placeholder {
-            background-color: #f4b400;
-            height: 100px;
-            width: 45%;
-            display: inline-block;
-            margin-right: 5%;
-        }
-        .filter-button {
-            float: right;
-            background-color: #f4b400;
-            padding: 5px 10px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="CSS/Home.css">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- DaisyUI CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.7.3/dist/full.css" rel="stylesheet" type="text/css" />
+    <!-- Animate.css CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <!-- AOS CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/f13afb77f1.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="header"></div>
-
-<button class="filter-button">Filter ▼</button>
-
 <%
-    List<Post> posts = (List<Post>) request.getAttribute("posts");
-    if (posts != null) {
+    List<Post> posts = JavaFiles.Social.fetchPosts();
+    if (posts != null && !posts.isEmpty()) {
         for (Post post : posts) {
 %>
-<div class="post-container">
-    <div class="profile-pic"></div>
-    <span class="username blue-mark"><%= post.getUsername() %></span>
-    <span class="post-info"><%= post.getDate() %></span>
-    <div class="content">
+<div class="post-container border p-4 my-4 rounded-lg bg-white shadow-lg">
+    <div class="flex items-center mb-2">
+        <div class="profile-pic w-10 h-10 rounded-full bg-gray-300"></div>
+        <span class="username font-bold ml-2"><%= post.getUsername() %></span>
+        <span class="post-info text-sm text-gray-500 ml-2"><%= post.getDate() %></span>
+    </div>
+    <div class="content text-gray-700">
         <%= post.getDescription() %>
     </div>
-    <% if (post.getPhoto1() != null) { %>
-    <img src="<%= post.getPhoto1Path() %>" class="image-placeholder" alt="Post Image 1" />
+    <% if (post.getPhoto1() != null && !post.getPhoto1().isEmpty()) { %>
+    <img src="<%= post.getPhoto1Path() %>" class="image-placeholder w-full my-2 rounded-lg" alt="Post Image 1" />
     <% } %>
-    <% if (post.getPhoto2() != null) { %>
-    <img src="<%= post.getPhoto2Path() %>" class="image-placeholder" alt="Post Image 2" />
+    <% if (post.getPhoto2() != null && !post.getPhoto2().isEmpty()) { %>
+    <img src="<%= post.getPhoto2Path() %>" class="image-placeholder w-full my-2 rounded-lg" alt="Post Image 2" />
     <% } %>
 </div>
 <%
-        }
+    }
+} else {
+%>
+<p class="text-center text-gray-500">No posts available.</p>
+<%
     }
 %>
 </body>

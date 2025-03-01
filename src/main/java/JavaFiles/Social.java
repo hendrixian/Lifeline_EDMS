@@ -1,3 +1,4 @@
+// Social.java - Servlet for fetching posts from the database
 package JavaFiles;
 
 import jakarta.servlet.ServletException;
@@ -7,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class Social extends HttpServlet {
     private static final String DB_URL = "jdbc:mariadb://localhost:3306/edms";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
-    private static final String IMAGE_PATH = "post_images/"; // Relative path for images
+    private static final String IMAGE_PATH = "post_images/";
 
     public static class Post {
         private int id;
@@ -43,8 +43,8 @@ public class Social extends HttpServlet {
         public String getPhoto2() { return photo2; }
         public String getDate() { return date; }
 
-        public String getPhoto1Path() { return IMAGE_PATH + photo1; }
-        public String getPhoto2Path() { return IMAGE_PATH + photo2; }
+        public String getPhoto1Path() { return photo1 != null ? IMAGE_PATH + photo1 : null; }
+        public String getPhoto2Path() { return photo2 != null ? IMAGE_PATH + photo2 : null; }
     }
 
     public static List<Post> fetchPosts() {
@@ -63,7 +63,6 @@ public class Social extends HttpServlet {
                         rs.getString("date")
                 ));
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -72,27 +71,8 @@ public class Social extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-
         List<Post> posts = fetchPosts();
-
-        out.println("<html><head><title>Social Feed</title></head><body>");
-        out.println("<h1>Recent Posts</h1>");
-
-        for (Post post : posts) {
-            out.println("<div style='border:1px solid #ddd; padding:10px; margin:10px;'>");
-            out.println("<h3>Posted by: " + post.getUsername() + " on " + post.getDate() + "</h3>");
-            out.println("<p>" + post.getDescription() + "</p>");
-            if (post.getPhoto1() != null) {
-                out.println("<img src='" + post.getPhoto1Path() + "' width='200' alt='Post Image 1' /><br>");
-            }
-            if (post.getPhoto2() != null) {
-                out.println("<img src='" + post.getPhoto2Path() + "' width='200' alt='Post Image 2' /><br>");
-            }
-            out.println("</div>");
-        }
-
-        out.println("</body></html>");
+        request.setAttribute("posts", posts);
+        request.getRequestDispatcher("Social.jsp").forward(request, response);
     }
 }
