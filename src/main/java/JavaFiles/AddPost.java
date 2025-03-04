@@ -72,7 +72,7 @@ public class AddPost extends HttpServlet {
 		}
 
 		// Directory for storing images
-		String uploadPath = "D:/projects/Java project/java projects_intellij/Lifeline/post_images";
+		String uploadPath = "E:/EDMS/Lifeline_EDMS/src/main/webapp/post_images";
 		File uploadDir = new File(uploadPath);
 		if (!uploadDir.exists() && !uploadDir.mkdirs()) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unable to create directory for file uploads.");
