@@ -14,7 +14,7 @@ import java.util.List;
 
 @WebServlet(name = "Social", urlPatterns = {"/Social"})
 public class Social extends HttpServlet {
-    private static final String DB_URL = "jdbc:mariadb://localhost:3306/edms";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/edms";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
     private static final String IMAGE_PATH = "post_images/"; // Relative path for images
